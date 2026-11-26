@@ -12,10 +12,22 @@ namespace DriftX.EditorTools
     /// <summary>
     /// Headless build entry point: configures Android + URP, generates the scene in code, builds the APK.
     /// Run by GameCI via buildMethod DriftX.EditorTools.CIBuild.Build
+    /// Unity Build Automation uses DriftX.EditorTools.CIBuild.PreExport instead (it exports the player itself).
     /// </summary>
     public static class CIBuild
     {
         const string ScenePath = "Assets/Scenes/Main.unity";
+
+        /// <summary>
+        /// Pre-export method for Unity Build Automation: sets up the project and generates the scene,
+        /// but does NOT build. Build Automation exports the player after this runs.
+        /// </summary>
+        public static void PreExport()
+        {
+            ConfigurePlayer();
+            ConfigureURP();
+            CreateScene();
+        }
 
         public static void Build()
         {
