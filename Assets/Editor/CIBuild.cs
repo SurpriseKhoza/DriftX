@@ -149,6 +149,14 @@ namespace DriftX.EditorTools
             var tire = MakeMat(lit, "Tire", new Color(0.03f, 0.03f, 0.03f), 0.25f, 0f);
             var cone = MakeMat(lit, "Cone", new Color(1f, 0.45f, 0.05f), 0.4f, 0f);
 
+            // Effect materials (created here so their shaders are included in the build)
+            var skid = new Material(Shader.Find("Universal Render Pipeline/Unlit")) { name = "Skid" };
+            skid.SetColor("_BaseColor", new Color(0.02f, 0.02f, 0.02f));
+            skid.SetFloat("_Cull", 0f); // visible from both sides
+            AssetDatabase.CreateAsset(skid, "Assets/Materials/Skid.mat");
+            var smoke = new Material(Shader.Find("Sprites/Default")) { name = "Smoke" };
+            AssetDatabase.CreateAsset(smoke, "Assets/Materials/Smoke.mat");
+
             // Sun
             var sun = new GameObject("Sun");
             var light = sun.AddComponent<Light>();
@@ -177,6 +185,12 @@ namespace DriftX.EditorTools
             var box = car.AddComponent<BoxCollider>();
             box.size = new Vector3(1.8f, 0.7f, 4.2f);
             var dc = car.AddComponent<DriftCar>();
+
+            // Tire smoke + skid marks
+            var fx = car.AddComponent<DriftEffects>();
+            fx.car = dc;
+            fx.skidMaterial = skid;
+            fx.smokeMaterial = smoke;
 
             Prim(PrimitiveType.Cube, "Body", car.transform, Vector3.zero, new Vector3(1.8f, 0.6f, 4.2f), paint, false);
             Prim(PrimitiveType.Cube, "Cabin", car.transform, new Vector3(0f, 0.5f, -0.2f), new Vector3(1.5f, 0.5f, 2f), glass, false);

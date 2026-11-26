@@ -19,6 +19,7 @@ namespace DriftX
         float driftTime;
         float grace;
         GUIStyle style;
+        GUIStyle small;
 
         void Awake() { Multiplier = 1f; }
 
@@ -58,6 +59,10 @@ namespace DriftX
                 style = new GUIStyle(GUI.skin.label);
                 style.fontSize = Mathf.RoundToInt(Screen.height * 0.045f);
                 style.normal.textColor = Color.white;
+
+                // Created once (not every frame) so the HUD doesn't generate garbage on phones.
+                small = new GUIStyle(style);
+                small.fontSize = Mathf.RoundToInt(Screen.height * 0.028f);
             }
             float w = Screen.width * 0.6f;
             float h = Screen.height * 0.06f;
@@ -65,9 +70,8 @@ namespace DriftX
             GUI.Label(new Rect(20, 10 + h, w, h), "Chain " + Mathf.RoundToInt(Chain) + "  x" + Multiplier.ToString("0.0"), style);
             if (car != null)
                 GUI.Label(new Rect(20, 10 + h * 2, w, h), Mathf.RoundToInt(car.SpeedKmh) + " km/h", style);
-            var small = new GUIStyle(style);
-            small.fontSize = Mathf.RoundToInt(Screen.height * 0.028f);
-            GUI.Label(new Rect(20, Screen.height * 0.30f, w, h), SystemInfo.graphicsDeviceType + " | " + QualityTier.CurrentName, small);
+            GUI.Label(new Rect(20, Screen.height * 0.30f, w, h),
+                SystemInfo.graphicsDeviceType + " | " + QualityTier.CurrentName + " | res " + Mathf.RoundToInt(AdaptiveQuality.CurrentScale * 100f) + "%", small);
         }
     }
 }
