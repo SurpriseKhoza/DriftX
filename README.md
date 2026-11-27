@@ -15,7 +15,7 @@ Realistic drift racing game for Android, built with Unity (URP, Vulkan with Open
 Add these repository secrets (Settings > Secrets and variables > Actions):
 - `UNITY_EMAIL`: your Unity ID email
 - `UNITY_PASSWORD`: your Unity ID password
-- `UNITY_LICENSE`: optional, only if you have a `.ulf` license file
+- `UNITY_LICENSE`: full text of `Unity_lic.ulf`, created by activating a Personal license in Unity Hub on a computer. Unity no longer supports manual `.alf` activation for Personal licenses.
 
 Create `.github/workflows/build-android.yml` (see the workflow in the chat), then run it from the Actions tab. The APK is attached to the run as the `DriftX-Android` artifact.
 
